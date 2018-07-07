@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>alertify.js - example page</title>
+	<link rel="stylesheet" href="../themes/alertify.core.css" />
+	<link rel="stylesheet" href="../themes/alertify.default.css" id="toggleCSS" />
+	<meta name="viewport" content="width=device-width">
+	<style>
+		.alertify-log-custom {
+			background: blue;
+		}
+	</style>
+</head>
+<body>
+
+	<h2>Logs</h2>
+
+	<a href="#" id="success">Success Log</a><br>
+	<a href="#" id="error">Error Log</a><br>
+	<a href="#" id="log">Hide in 10 seconds</a><br>
+
+
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="../lib/alertify.min.js"></script>
+	<script>
+		function reset () {
+			$("#toggleCSS").attr("href", "../themes/alertify.default.css");
+			alertify.set({
+				labels : {
+					ok     : "OK",
+					cancel : "Cancel"
+				},
+				delay : 5000,
+				buttonReverse : false,
+				buttonFocus   : "ok"
+			});
+		}
+
+		// ==============================
+		// Custom Properties
+		
+		$("#error").on( 'click', function () {
+			reset();
+			alertify.set({ delay: 5000 });
+			alertify.error("Error");
+			return false;
+		});
+		$("#success").on( 'click', function () {
+			reset();
+			alertify.set({ delay: 5000 });
+			alertify.success("Success");
+			return false;
+		});	
+		$("#log").on( 'click', function () {
+			reset();
+			alertify.set({ delay: 5000 });
+			alertify.log("normal");
+			return false;
+		});		
+
+		// ==============================
+
+
+	</script>
+
+</body>
+</html>

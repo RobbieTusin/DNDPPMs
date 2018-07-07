@@ -1,0 +1,531 @@
+<?php
+   include('db.php');
+   session_start();
+   
+   $user_check = $_SESSION['login_user'];
+   
+   $ses_sql = mysql_query("select employee_id from bacmember where employee_id = '$user_check' ");
+   
+   $row = mysql_fetch_array($ses_sql,MYSQLI_ASSOC);
+   
+   //$login_session = $row['username'];
+   
+   if(!isset($_SESSION['login_user'])){
+      header("location:/../../DNDPPMS/index.html");
+   }
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>DND Proper BAC PPMS | PROCUREMENT MONITORING REPORT</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+  <!-- Material Design -->
+  <link rel="stylesheet" href="../../dist/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" href="../../dist/css/ripples.min.css">
+  <link rel="stylesheet" href="../../dist/css/MaterialAdminLTE.min.css">
+  <!-- MaterialAdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../dist/css/skins/all-md-skins.min.css">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+
+<header class="main-header">
+    <nav class="navbar navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="../../../index.html" class="navbar-brand"><b>DND PBAC PPMS</b></a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="../../index.html">BACK TO DASHBOARD</a></li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+		
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+
+<!-- User Account: style can be found in dropdown.less -->
+        <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="../../dist/img/boy1.png" class="user-image" alt="User Image">
+              <span class="hidden-xs"><b><?php echo $_SESSION['firstname'] ?></b></span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="dist/img/boy1.png" class="img-circle" alt="User Image">
+
+                <p>
+                  <?php echo $_SESSION['firstname'] ?> <br> <small> Position </small>
+                </p>
+              </li>
+              <!-- Menu Body -->
+              <li class="user-body">
+                <div class="row">
+				                  <div class="row">
+                  <center>
+                    <label>CHANGE</label>
+                  </center>
+
+                </div>
+				
+					<div class="btn col-xs-12">
+							<a href="../PPMS/pages/tables/change_password.html"> Password </a>
+					</div>	
+				
+				  <div class="form-group">
+					<div class="btn col-xs-12">
+							<input type="file" name="attachment" class="btn btn-default btn-flat"> Picture </input>
+					</div>
+					<p class="help-block">Max. 32MB</p>
+				  </div>
+				  
+				</div>
+                <!-- /.row -->
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="../examples/lockscreen.html" class="btn btn-default btn-flat">Lock <i class="fa fa-lock"></i></a>
+                </div>
+                <div class="pull-right">
+                  <a href="/../../DNDPPMS/index.html" class="btn btn-default btn-flat" onclick="notifyMe()?success:true">Sign out <i class="fa fa-sign-out"></i></a>
+                </div>
+              </li>
+            </ul>
+        </li>
+		
+<!-- Control Sidebar Toggle Button -->		
+			
+          </ul>
+        </div>
+        <!-- /.navbar-custom-menu -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+  </header>
+  <!-- Full Width Column -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+		PROCUREMENT MONITORING SYSTEM
+          <small> </small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li class="active">PMR</li>
+        </ol>
+      </section>
+
+    </div>
+    <!-- /.container -->
+	
+	
+	
+	
+	      <!-- Main content -->
+      <section class="content">
+        <div class="box box-default">
+          <div class="box-body">
+					<table>
+						<tr>
+							<td>
+								<p> <strong> ANNEX B </strong> </p>
+								<?php
+					
+									$select=mysql_query("SELECT CURDATE() as datetoday");				
+									$datetoday = mysql_fetch_object($select);
+								?>
+								<p><strong> Department of National Defense - Proper Procurement Monitoring Report as of <?php echo $datetoday->datetoday ?></strong></p>
+							</td>
+						</tr>	
+					</table>
+
+			  <table class="table table-responsive table-bordered table-hoverable form-control" style="height: auto; overflow-y:hidden;">
+                <thead>
+				<tr>
+					<th rowspan="2"> <center>Code(UACS/PAP) <c/enter></th>
+					<th rowspan="2"> <center>Procurement Program/Project </center></th>
+					<th rowspan="2"> <center>PMO / End-User </center></th>
+					<th rowspan="2"> <center>Mode of Procurement </center></th>
+					
+					<th colspan="12"><center> Actual Procurement Activity</center> </th>
+					<th rowspan="2"><center> Source of Funds</center> </th>
+					<th colspan="3"><center> ABC(Php)</center> </th>	
+					<th colspan="3"><center>Contract Cost(Php)</center> </th>
+					<th rowspan="2"><center>List of Invited Osbservers </center></th>
+					<th colspan="6"><center> Date of Receipt of Invitation </center></th>
+					<th rowspan="2"><center>Remarks and Explaining Changes</center></th>
+					
+					
+				</tr>
+				<tr>
+				  <th> <center> Pre-Proc Conference							</center>	</th>
+				  <th> <center> Ads/Post of IB								</center>	</th>
+				  <th> <center> Pre-bid Conf								</center>	</th>
+				  <th> <center> Eligibility Check 							</center>	</th>				  
+				  <th> <center> Sub/Open of Bids							</center>	</th>
+				  <th> <center> Bid Evaluation 								</center>	</th>
+				  <th> <center> Post Qual									</center>	</th>
+                  <th> <center> Notice of Award								</center>	</th>
+				  <th> <center> Contract Signing							</center>	</th>
+				  <th> <center> Notice to Proceed							</center>	</th>
+				  <th> <center> Delivery/ Completion						</center>	</th>
+				  <th> <center> Inspection & Acceptance						</center>	</th>
+				  <th> <center> Total 										</center>	</th>
+				  <th> <center> MOOE										</center>	</th>
+				  <th> <center> CO											</center>	</th>
+				  <th> <center> Total										</center>	</th>
+				  <th> <center> MOOE										</center>	</th>
+				  <th> <center> CO											</center>	</th>
+				  <th> <center> Pre-bid Conf								</center>	</th>
+				  <th> <center> Eligibility Check							</center>	</th>
+				  <th> <center> Sub/Open of Bids							</center>	</th>
+				  <th> <center> Bid Evaluation								</center>	</th>
+				  <th> <center> Post Qual									</center>	</th>
+				  <th> <center> Delivery/Completion/Acceptance(If applicable)			</center>	</th>
+
+
+				  </tr>
+                </thead>
+				
+				<!-- CATEGORY -->
+				<tr>
+					<td bgcolor="#F5F5F5" colspan="31"> COMPLETED PROCUREMENT ACTIVITIES</td>
+				</tr>
+				
+				<?php
+					
+					$select=mysql_query("SELECT * FROM pmr_db WHERE status = 'COMPLETED PROCUREMENT ACTIVITIES' order by pmrid desc");
+					$i=1;
+					
+					while($userrow=mysql_fetch_array($select))
+					{
+						$pmrid = $userrow['pmrid'];
+						$CodePAP =$userrow['CodePAP'];
+						$program =$userrow['program'];
+						$enduserabbre =$userrow['enduserabbre'];
+						$modeofprocurement =$userrow['modeofprocurement'];
+						$preproc =$userrow['preproc'];
+						$adspost =$userrow['adspost'];
+						$prebid =$userrow['prebid'];
+						$EligibilityCheck =$userrow['EligibilityCheck'];
+						$subopenofbids =$userrow['subopenofbids'];
+						$BidEvaluation =$userrow['BidEvaluation'];
+						$postqual1 =$userrow['postqual1'];
+						$postqual2 =$userrow['postqual2'];
+						$postqual3 =$userrow['postqual3'];
+						$NoticeofAward =$userrow['NoticeofAward'];
+						$contractsigning1 =$userrow['contractsigning1'];
+						$contractsigning2 =$userrow['contractsigning2'];
+						$contractsigning3 =$userrow['contractsigning3'];
+						$noticetoproceed1 =$userrow['noticetoproceed1'];
+						$noticetoproceed2 =$userrow['noticetoproceed2'];
+						$noticetoproceed3 =$userrow['noticetoproceed3'];
+						$DeliverCompletion1 =$userrow['DeliverCompletion1'];
+						$DeliverCompletion2 =$userrow['DeliverCompletion2'];
+						$DeliverCompletion3 =$userrow['DeliverCompletion3'];
+						$InspectionAcceptance1 =$userrow['InspectionAcceptance1'];
+						$InspectionAcceptance2 =$userrow['InspectionAcceptance2'];
+						$InspectionAcceptance3 =$userrow['InspectionAcceptance3'];
+						$sourceoffunds =$userrow['sourceoffunds'];
+						$total =$userrow['total'];
+						$mooeABC =$userrow['mooeABC'];
+						$coABC =$userrow['coABC'];
+						$totalcontractcost =$userrow['totalcontractcost'];
+						$mooeContractcost1 =$userrow['mooeContractcost1'];	
+						$mooeContractcost2 =$userrow['mooeContractcost2'];	
+						$mooeContractcost3 =$userrow['mooeContractcost3'];
+						$coContractcost =$userrow['coContractcost'];
+						$observer =$userrow['observer'];
+						$prebid1 =$userrow['prebid1'];
+						$EligibilityCheck2 =$userrow['EligibilityCheck2'];
+						$subopenofbids1 =$userrow['subopenofbids1'];
+						$BidEvaluation1 =$userrow['BidEvaluation1'];	
+						$postqualinvitation =$userrow['postqualinvitation'];							
+						$DeliveryInvitation =$userrow['DeliveryInvitation'];
+						$explainingchanges =$userrow['explainingchanges'];	
+						$status =$userrow['status'];						
+				?>
+				
+					<!-- PRODUCTS -->
+					<tr>
+					
+						<td><?php echo $CodePAP; ?></td>
+						<td><?php echo $program; ?></td>
+						<td><?php echo $enduserabbre; ?></td>
+						<td><?php echo $modeofprocurement; ?></td>
+						<td><?php echo $preproc; ?></td>
+						<td><?php echo $adspost; ?></td>
+						<td><?php echo $prebid; ?></td>
+						<td><?php echo $EligibilityCheck; ?></td>
+						<td><?php echo $subopenofbids; ?></td>
+						<td><?php echo $BidEvaluation; ?></td>
+						<td><?php echo $postqual1,"<br>",$postqual2,"<br>", $postqual3;?></td>
+						<td><?php echo $NoticeofAward; ?></td>
+						<td><?php echo $contractsigning1,"<br>", $contractsigning2, "<br>", $contractsigning3; ?></td>
+						<td><?php echo $noticetoproceed1,"<br>", $noticetoproceed2, "<br>", $noticetoproceed3; ?></td>
+						<td><?php echo $DeliverCompletion1,"<br>", $DeliverCompletion2,"<br>", $DeliverCompletion3 ?></td>
+						<td><?php echo $InspectionAcceptance1,"<br>", $InspectionAcceptance2,"<br>", $InspectionAcceptance3 ?></td>
+						<td><?php echo $sourceoffunds; ?></td>
+						<td><?php echo $total; ?></td>
+						<td><?php echo $mooeABC; ?></td>
+						<td><?php echo $coABC; ?></td>
+						<td><?php echo $totalcontractcost; ?></td>
+						<td><?php echo $mooeContractcost1,"<br>", $mooeContractcost2,"<br>", $mooeContractcost3 ?></td>
+						<td><?php echo $coContractcost; ?></td>
+						<td><?php echo $observer; ?></td>
+						<td><?php echo $prebid1; ?></td>
+						<td><?php echo $EligibilityCheck2; ?></td>
+						<td><?php echo $subopenofbids1; ?></td>
+						<td><?php echo $BidEvaluation1; ?></td>
+						<td><?php echo $postqualinvitation; ?></td>
+						<td><?php echo $DeliveryInvitation; ?></td>
+						<td><?php echo $explainingchanges; ?></td>
+						
+				</tr>
+				<?php 
+				}
+				?>
+				
+				<?php
+					
+					$select=mysql_query("SELECT SUM(total) as total1 FROM pmr_db WHERE status = 'COMPLETED PROCUREMENT ACTIVITIES'");				
+					$total = mysql_fetch_object($select);
+					?>
+				
+                <tr bgcolor="#F5F5F5">
+				  <td colspan="11"></td>
+				  <td colspan="6"><center><b>Total Alloted Budget of Procurement Activities</b></center></td>
+				  <td colspan="6"><center><b><?php echo number_format($total->total1,2) ?></b></center></td>		  
+				</tr>
+				
+				<?php
+					
+					$select=mysql_query("SELECT SUM(totalcontractcost) as totalcontractcost FROM pmr_db WHERE status = 'COMPLETED PROCUREMENT ACTIVITIES'");				
+					$total = mysql_fetch_object($select);
+					?>
+				
+				<tr  class="table table-bordered"  bgcolor="#F5F5F5">
+				  <td colspan="11"></td>
+				  <td colspan="6"><center><b>Total Contract Price of Procurement Activies Conducted</b></center></td>
+				  <td colspan="6"><center><b><?php echo number_format($total->totalcontractcost,2) ?></b></center></td>
+				</tr>
+				
+				<?php
+					
+					$select=mysql_query("SELECT (SUM(total) - SUM(totalcontractcost)) as allottedbudget FROM pmr_db WHERE status = 'COMPLETED PROCUREMENT ACTIVITIES'");				
+					$total = mysql_fetch_object($select);
+					?>
+				
+				<tr  class="table table-bordered"  bgcolor="#F5F5F5">
+				  <td colspan="11"></td>
+				  <td colspan="6"><center><b>Total Savings(Total Alloted Budget - Total Contract Price)</b></center></td>
+				  <td colspan="6"><center><b><?php echo number_format($total->allottedbudget,2) ?></b></center></td>
+				</tr>
+				
+				
+				
+				<!-- CATEGORY -->
+				<tr>
+					<td bgcolor="#F5F5F5" colspan="31"> ONGOING PROCUREMENT ACTIVITIES</td>
+				</tr>
+				
+				<?php
+					
+					$select=mysql_query("SELECT * FROM pmr_db WHERE status = 'ON-GOING PROCUREMENT ACTIVITIES' order by pmrid desc");
+					$i=1;
+					
+					while($userrow=mysql_fetch_array($select))
+					{
+						$pmrid = $userrow['pmrid'];
+						$CodePAP =$userrow['CodePAP'];
+						$program =$userrow['program'];
+						$enduserabbre =$userrow['enduserabbre'];
+						$modeofprocurement =$userrow['modeofprocurement'];
+						$preproc =$userrow['preproc'];
+						$adspost =$userrow['adspost'];
+						$prebid =$userrow['prebid'];
+						$EligibilityCheck =$userrow['EligibilityCheck'];
+						$subopenofbids =$userrow['subopenofbids'];
+						$BidEvaluation =$userrow['BidEvaluation'];
+						$postqual1 =$userrow['postqual1'];
+						$postqual2 =$userrow['postqual2'];
+						$postqual3 =$userrow['postqual3'];
+						$NoticeofAward =$userrow['NoticeofAward'];
+						$contractsigning1 =$userrow['contractsigning1'];
+						$contractsigning2 =$userrow['contractsigning2'];
+						$contractsigning3 =$userrow['contractsigning3'];
+						$noticetoproceed1 =$userrow['noticetoproceed1'];
+						$noticetoproceed2 =$userrow['noticetoproceed2'];
+						$noticetoproceed3 =$userrow['noticetoproceed3'];
+						$DeliverCompletion1 =$userrow['DeliverCompletion1'];
+						$DeliverCompletion2 =$userrow['DeliverCompletion2'];
+						$DeliverCompletion3 =$userrow['DeliverCompletion3'];
+						$InspectionAcceptance1 =$userrow['InspectionAcceptance1'];
+						$InspectionAcceptance2 =$userrow['InspectionAcceptance2'];
+						$InspectionAcceptance3 =$userrow['InspectionAcceptance3'];
+						$sourceoffunds =$userrow['sourceoffunds'];
+						$total =$userrow['total'];
+						$mooeABC =$userrow['mooeABC'];
+						$coABC =$userrow['coABC'];
+						$totalcontractcost =$userrow['totalcontractcost'];
+						$mooeContractcost1 =$userrow['mooeContractcost1'];	
+						$mooeContractcost2 =$userrow['mooeContractcost2'];	
+						$mooeContractcost3 =$userrow['mooeContractcost3'];
+						$coContractcost =$userrow['coContractcost'];
+						$observer =$userrow['observer'];
+						$prebid1 =$userrow['prebid1'];
+						$EligibilityCheck2 =$userrow['EligibilityCheck2'];
+						$subopenofbids1 =$userrow['subopenofbids1'];
+						$BidEvaluation1 =$userrow['BidEvaluation1'];	
+						$postqualinvitation =$userrow['postqualinvitation'];							
+						$DeliveryInvitation =$userrow['DeliveryInvitation'];
+						$explainingchanges =$userrow['explainingchanges'];	
+						$status =$userrow['status'];	
+				?>
+				
+					<!-- PRODUCTS -->
+					<tr>
+					
+						<td><?php echo $CodePAP; ?></td>
+						<td><?php echo $program; ?></td>
+						<td><?php echo $enduserabbre; ?></td>
+						<td><?php echo $modeofprocurement; ?></td>
+						<td><?php echo $preproc; ?></td>
+						<td><?php echo $adspost; ?></td>
+						<td><?php echo $prebid; ?></td>
+						<td><?php echo $EligibilityCheck; ?></td>
+						<td><?php echo $subopenofbids; ?></td>
+						<td><?php echo $BidEvaluation; ?></td>
+						<td><?php echo $postqual1,"<br>",$postqual2,"<br>", $postqual3;?></td>
+						<td><?php echo $NoticeofAward; ?></td>
+						<td><?php echo $contractsigning1,"<br>", $contractsigning2, "<br>", $contractsigning3; ?></td>
+						<td><?php echo $noticetoproceed1,"<br>", $noticetoproceed2, "<br>", $noticetoproceed3; ?></td>
+						<td><?php echo $DeliverCompletion1,"<br>", $DeliverCompletion2,"<br>", $DeliverCompletion3 ?></td>
+						<td><?php echo $InspectionAcceptance1,"<br>", $InspectionAcceptance2,"<br>", $InspectionAcceptance3 ?></td>
+						<td><?php echo $sourceoffunds; ?></td>
+						<td><?php echo $total; ?></td>
+						<td><?php echo $mooeABC; ?></td>
+						<td><?php echo $coABC; ?></td>
+						<td><?php echo $totalcontractcost; ?></td>
+						<td><?php echo $mooeContractcost1,"<br>", $mooeContractcost2,"<br>", $mooeContractcost3 ?></td>
+						<td><?php echo $coContractcost; ?></td>
+						<td><?php echo $observer; ?></td>
+						<td><?php echo $prebid1; ?></td>
+						<td><?php echo $EligibilityCheck2; ?></td>
+						<td><?php echo $subopenofbids1; ?></td>
+						<td><?php echo $BidEvaluation1; ?></td>
+						<td><?php echo $postqualinvitation; ?></td>
+						<td><?php echo $DeliveryInvitation; ?></td>
+						<td><?php echo $explainingchanges; ?></td>
+
+				</tr>
+				<?php 
+				}
+				?>
+				
+				<?php
+					
+					$select=mysql_query("SELECT SUM(total) as total1 FROM pmr_db WHERE status = 'ON-GOING PROCUREMENT ACTIVITIES'");				
+					$total = mysql_fetch_object($select);
+					?>
+				
+                <tr bgcolor="#F5F5F5">
+				  <td colspan="11"></td>
+				  <td colspan="6"><center><b>Total Alloted Budget of Procurement Activities</b></center></td>
+				  <td colspan="3"><center><b><?php echo number_format($total->total1,2) ?></b></center></td>
+				  <td colspan="8"></td>				  
+				</tr>
+				
+				
+				</table>
+				<table>
+					<tr>
+						<td width="400px"><strong> Prepared By: <br><br><br> WAHAB SHERWIN S. SURIAN <br> Head, DND Proper BAC Secretariat </strong></td>
+						<td width="400px"><strong> Recommended and Approved By: <br><br><br> DIR. CHRISTINE JUNE P. CARIÑO <br> Vice Chairperson, DND Proper BAC</strong></td>
+					</tr>
+				</table>
+	
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </section>
+      <!-- /.content -->
+	
+	   
+	
+	
+	
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <?php
+	  
+	  		$select=mysql_query("SELECT * FROM copyright order by copy_id");
+			$i=1;
+			
+			while($userrow=mysql_fetch_array($select))
+			{
+				$version =$userrow['version'];
+				echo'<b>'.$version.'</b>';
+			}
+	  ?>
+    </div>
+    <strong>Copyright &copy; 2017 - DND PBAC PPMS by 3R&M &trade;. </strong>
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<!-- Material Design -->
+<script src="../../dist/js/material.min.js"></script>
+<script src="../../dist/js/ripples.min.js"></script>
+<script>
+    $.material.init();
+</script>
+<!-- SlimScroll -->
+<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../../plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+</body>
+</html>

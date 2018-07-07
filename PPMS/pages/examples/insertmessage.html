@@ -1,0 +1,30 @@
+<?php
+  ob_start();
+  include("db.php");
+  
+	$name=mysql_real_escape_string($_POST['name']);	
+	$email=mysql_real_escape_string($_POST['email']);
+    $phone=mysql_real_escape_string($_POST['phone']);
+	$subject=mysql_real_escape_string($_POST['subject']);
+    $message=mysql_real_escape_string($_POST['message']);
+	
+	$update=mysql_query("INSERT INTO message_us(name,email,phone,subject,message)VALUES
+									  ('$name','$email','$phone','$subject','$message')");						  
+		if (!$update) {
+    die('Invalid query: ' . mysql_error());
+}
+	echo "SHIT";
+	if($update)
+  {
+	  $msg="Order Comfirm!!";
+	  echo "<script type='text/javascript'>alert('$msg');</script>";
+	  header("Location: {$_SERVER['HTTP_REFERER']}");
+  }
+  else
+  {
+	 $errormsg="Something went wrong, Try again";
+	  echo "<script type='text/javascript'>alert('$errormsg');</script>";
+	  header('Location:mailbox.html');
+  }
+ ob_end_flush();
+?>

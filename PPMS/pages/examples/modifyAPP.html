@@ -1,0 +1,55 @@
+<?php
+  ob_start();
+  include("db.php");
+	
+	$appid = mysql_real_escape_string($_POST['appid']);
+	$fiscalyear = mysql_real_escape_string($_POST['fiscalyear']);
+	$expensecat = mysql_real_escape_string($_POST['expensecat']);
+	$enduserabbre = mysql_real_escape_string($_POST['enduserabbre']);
+	$quarter = mysql_real_escape_string($_POST['quarter']);
+	$quarter1 = mysql_real_escape_string($_POST['quarter1']);
+	$quarter2 = mysql_real_escape_string($_POST['quarter2']);
+	$quarter3 = mysql_real_escape_string($_POST['quarter3']);
+	$source = mysql_real_escape_string($_POST['source']);
+	$mooe = mysql_real_escape_string($_POST['mooe']);
+	$co = mysql_real_escape_string($_POST['co']);
+	$remarks = mysql_real_escape_string($_POST['remarks']);
+	$CodePAP = mysql_real_escape_string($_POST['CodePAP']);
+	$nomenclature = mysql_real_escape_string($_POST['nomenclature']);
+	$modeofprocurement = mysql_real_escape_string($_POST['modeofprocurement']);
+	$unit = mysql_real_escape_string($_POST['unit']);
+	$unitcost = mysql_real_escape_string($_POST['unitcost']);
+	$AddProServices = mysql_real_escape_string($_POST['AddProServices']);
+	$jan = mysql_real_escape_string($_POST['jan']);
+	$feb = mysql_real_escape_string($_POST['feb']);
+	$march = mysql_real_escape_string($_POST['march']);
+	$april = mysql_real_escape_string($_POST['april']);
+	$may = mysql_real_escape_string($_POST['may']);
+	$june = mysql_real_escape_string($_POST['june']);
+	$july = mysql_real_escape_string($_POST['july']);
+	$aug = mysql_real_escape_string($_POST['aug']);
+	$sept = mysql_real_escape_string($_POST['sept']);
+	$october = mysql_real_escape_string($_POST['october']);
+	$nov = mysql_real_escape_string($_POST['nov']);
+	$december = mysql_real_escape_string($_POST['december']);
+	$totQuan = mysql_real_escape_string($_POST['totQuan']);
+	$mooe1 = mysql_real_escape_string($_POST['mooe1']);
+	$co1 = mysql_real_escape_string($_POST['co1']);
+	$totCost = mysql_real_escape_string($_POST['totCost']);
+	
+	$update=mysql_query("UPDATE app_db SET fiscalyear='$fiscalyear',expensecat='$expensecat',enduserabbre='$enduserabbre',quarter='$quarter',quarter1='$quarter1',quarter2='$quarter2',quarter3='$quarter3',source='$source', mooe='$mooe',co='$co',remarks='$remarks',CodePAP='$CodePAP',nomenclature='$nomenclature',modeofprocurement='$modeofprocurement',unit='$unit',unitcost='$unitcost',AddProServices='$AddProServices',jan='$jan',feb='$feb',march='$march',april='$april',may='$may',june='$june',july='$july',aug='$aug',sept='$sept',october='$october',nov='$nov',december='$december',totQuan='$totQuan',mooe1='$mooe1',co1='$co1',totCost='$totCost' WHERE appid='$appid'");
+						  		
+	if($update)
+  {
+	  $msg="Order Confirm!!";
+	  echo "<script type='text/javascript'>alert('$msg');</script>";
+	  header("Location: {$_SERVER['HTTP_REFERER']}");
+  }
+  else
+  {
+	  $errormsg="Something went wrong, Try again";
+	  echo "<script type='text/javascript'>alert('$errormsg');</script>";
+	  header('Location:encodeapp.html');
+  }
+ ob_end_flush();
+?>

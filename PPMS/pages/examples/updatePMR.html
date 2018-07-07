@@ -1,0 +1,1310 @@
+<?php
+   include('db.php');
+   session_start();
+   
+   $user_check = $_SESSION['login_user'];
+   
+   $ses_sql = mysql_query("select employee_id from bacmember where employee_id = '$user_check' ");
+   
+   $row = mysql_fetch_array($ses_sql,MYSQLI_ASSOC);
+   
+   //$login_session = $row['username'];
+   
+   if(!isset($_SESSION['login_user'])){
+      header("location:/../../DNDPPMS/index.html");
+   }
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>DND PROPER BAC PPMS | UPDATE PROJECT MONITORING REPORT</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+  <!-- Material Design -->
+  <link rel="stylesheet" href="../../dist/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" href="../../dist/css/ripples.min.css">
+  <link rel="stylesheet" href="../../dist/css/MaterialAdminLTE.min.css">
+  <!-- MaterialAdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../dist/css/skins/all-md-skins.min.css">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript">
+ 
+function copyText() {
+    tot1=document.getElementById("total").value;
+	
+	tot = document.getElementById("totalcontractcost").value;
+    a = document.getElementById("mooeContractcost1").value;
+	b = document.getElementById("mooeContractcost2").value;
+	c = document.getElementById("mooeContractcost3").value;
+	
+	if(a == "")
+		a = 0;
+	if(b == "")
+		b = 0;
+	if(c == "")
+		c = 0;
+	var tot = parseInt(a) + parseInt(b) + parseInt(c) ;
+	
+	document.getElementById('mooeABC').value = tot1;	
+		
+	document.getElementById('totalcontractcost').value = tot;	
+}
+</script>
+  
+  <style>
+    .color-palette {
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+    }
+
+    .color-palette-set {
+      margin-bottom: 15px;
+    }
+
+    .color-palette span {
+      display: none;
+      font-size: 12px;
+    }
+
+    .color-palette:hover span {
+      display: block;
+    }
+
+    .color-palette-box h4 {
+      position: absolute;
+      top: 100%;
+      left: 25px;
+      margin-top: -40px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      display: block;
+      z-index: 7;
+    }
+  </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+ <header class="main-header">
+   
+  	<!--------------------------------- MODAL --------------------------------->
+	    <!-- Logo -->
+    <a class="logo"  data-toggle="modal" data-target="#myModal">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>P<b>P<b>M<b>S</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>DND PBAC PPMS</b></span>
+    </a>
+	<!--------------------------------- MODAL ENDING--------------------------------->
+	
+		<!------------------------- Modal ------------------------->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">Sure you want to go back to Main Page?</h4>
+		  </div>
+		  <div class="modal-body">
+			This action will log out your account. Want to Continue?
+		  </div>
+		  <div class="modal-footer">
+			<button class="btn btn-default" type="reset" data-dismiss="modal">Cancel</button>
+			<button class="btn btn-primary" onclick="notifyMe()"><a href="/../DNDPPMS/index.html"> Go To Main Page </a></button>
+		  </div>
+		</div>
+	  </div>
+	</div>	
+	<!--------------------------------- MODAL ENDING--------------------------------->
+	
+	
+	 
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+
+<!-- User Account: style can be found in dropdown.less -->
+        <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="../../dist/img/boy1.png" class="user-image" alt="User Image">
+              <span class="hidden-xs"><?php echo $_SESSION['firstname'] ?></span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="../../dist/img/boy1.png" class="img-circle" alt="User Image">
+
+                <p>
+                  <?php echo $_SESSION['firstname'] ?> <br> <small> Position </small>
+                </p>
+              </li>
+              <!-- Menu Body -->
+              <li class="user-body">
+                <div class="row">
+				                  <div class="row">
+                  <center>
+                    <label>CHANGE</label>
+                  </center>
+
+                </div>
+				
+					<div class="btn col-xs-12">
+							<a href="../PPMS/pages/tables/change_password.html"> Password </a>
+					</div>	
+				
+				  <div class="form-group">
+					<div class="btn col-xs-12">
+							<input type="file" name="attachment" class="btn btn-default btn-flat"> Picture </input>
+					</div>
+					<p class="help-block">Max. 32MB</p>
+				  </div>
+				  
+				</div>
+                <!-- /.row -->
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="../PPMS/pages/examples/lockscreen.html" class="btn btn-default btn-flat">Lock <i class="fa fa-lock"></i></a>
+                </div>
+                <div class="pull-right">
+                  <a href="/../../DNDPPMS/index.html" class="btn btn-default btn-flat" onclick="notifyMe()?success:true">Sign out <i class="fa fa-sign-out"></i></a>
+                </div>
+              </li>
+            </ul>
+        </li>
+		
+<!-- Control Sidebar Toggle Button -->		
+		
+          <!-- Control Sidebar Toggle Button -->
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="../../dist/img/boy1.png" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p><?php echo $_SESSION['firstname'] ?></p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+     <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="active treeview">
+          <a href="../../index.html">
+            <i class="fa fa-dashboard"></i> <span><B>BAC SECRETARIAT DASHBOARD</B></span>
+          </a>
+        </li>
+		
+		<li class="treeview">
+          <a href="../mailbox/mailbox.html">
+            <i class="fa fa-envelope"></i> <span><B>MAILBOX</B></span>
+          </a>
+        </li>
+		
+		<li class="treeview">
+          <a href="#">
+            <i class="fa fa-folder"></i> <span>DATA ENTRY FORMS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+		      	  
+			<li><a href="../examples/dataentry_enduser.html"><i class="fa fa-clipboard"></i> End User Offices   </a></li>
+			<li><a href="../examples/dataentry_expenses.html"><i class="fa fa-clipboard"></i><b> Expenses   </b> </a></li>	
+			<li><a href="../examples/dataentry_fiscalyear.html"><i class="fa fa-clipboard"></i> Fiscal Year  </a></li>
+			<li><a href="../examples/dataentry_facts.html"><i class="fa fa-clipboard"></i> Frequently Ask Questions </a></li>
+			<li><a href="../examples/dataentry_mode.html"><i class="fa fa-clipboard"></i> Mode of Procurement </a></li>
+			<li><a href="../examples/dataentry_product.html"><i class="fa fa-clipboard"></i> Product </a></li>
+			<li><a href="../examples/dataentry_procurement.html"><i class="fa fa-clipboard"></i> Procurement   </a></li>
+			<li><a href="../examples/dataentry_projectname.html"><i class="fa fa-clipboard"></i> Project Name   </a></li>
+			<li><a href="../examples/dataentry_quarter.html"><i class="fa fa-clipboard"></i> Quarter  </a></li>
+			<li><a href="../examples/dataentry_signatory.html"><i class="fa fa-clipboard"></i> Signatory   </a></li>
+			<li><a href="../examples/dataentry_supplier.html"><i class="fa fa-clipboard"></i> Supplier </a></li>
+			<li><a href="../examples/dataentry_unit.html"><i class="fa fa-clipboard"></i> Unit   </a></li> 
+			<li><a href="../examples/dataentry_dlCategory.html"><i class="fa fa-clipboard"></i> Downloadables Category   </a></li>		
+          </ul>
+        </li>
+		<li>
+
+				<a href="#"><i class="fa fa-pencil"></i> APP DATA ENTRY FORMS
+					<span class="pull-right-container">
+					  <i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+				<ul class="treeview-menu">
+					<li><a href="../examples/encodeapp.html"><i class="fa fa-plus"></i><b>APP FORM-GPPB FORMAT</b> </a></li>
+					<li><a href="../examples/deleteAPP.html"><i class="fa fa-trash-o fa-fw"></i><b>DELETE PMR</b> </a></li>
+					<li><a href="../examples/updateAPP.html"><i class="fa fa-edit fa-fw"></i><b>UPDATE PMR</b> </a></li>					
+				</ul>
+            </li>
+			<li>
+
+              <a href="#"><i class="fa fa-pencil"></i> PMR DATA ENTRY FORMS
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+            <li><a href="../examples/encodePMR.html"><i class="fa fa-plus"></i><b> ADD PMR</b> </a></li>
+			<li><a href="../examples/deletePMR.html"><i class="fa fa-trash-o fa-fw"></i><b>DELETE PMR</b> </a></li>
+			<li><a href="../examples/updatePMR.html"><i class="fa fa-edit fa-fw"></i><b>UPDATE PMR</b> </a></li>
+			
+              </ul>
+            </li>
+
+       <li class="treeview">
+          <a href="#">
+            <i class="fa fa-database"></i> <span>DATABASE</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu"> 
+			<li><a href="../tables/BacMembertable.html"><i class="fa fa-list"></i> BAC Member List View</a></li>
+			<li><a href="../tables/endusertables.html"><i class="fa fa-list"></i> End User Offices List View</a></li>
+			<li><a href="../tables/expensesform.php"><i class="fa fa-list"></i> Expense List View</a></li> 
+			<li><a href="../tables/facts.html"><i class="fa fa-list"></i> FAQS List View</a></li>
+			<li><a href="../tables/fiscalyear.html"><i class="fa fa-list"></i> Fiscal Year List View</a></li>
+			<li><a href="../tables/dataentrytables.html"><i class="fa fa-list"></i> Mode of Procurement List View</a></li>
+			<li><a href="../tables/procurementtables.html"><i class="fa fa-list"></i> Procurement List View</a></li>
+			<li><a href="../tables/producttables.html"><i class="fa fa-list"></i> Product Details List View</a></li> 
+			<li><a href="../tables/projectname.html"><i class="fa fa-list"></i> Project Name List View</a></li>
+			<li><a href="../tables/quarter.html"><i class="fa fa-list"></i> Quarter List View</a></li> 
+			<li><a href="../tables/signatory.html"><i class="fa fa-list"></i> Signatory List View</a></li>
+			<li><a href="../tables/suppliertable.html"><i class="fa fa-list"></i> Supplier List View</a></li>
+			<li><a href="../tables/unit.html"><i class="fa fa-list"></i> Units List View</a></li>  
+			<li><a href="../tables/datatableAppGppb.html"><i class="fa fa-list"></i> APP GPPB  </a></li> 			
+             <!-- <li>
+              <a href="#"><i class="fa fa-folder"></i> APP DATABASE
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+            <li><a href="../PPMS/pages/tables/expensesform.php"><i class="fa fa-circle-o"></i> <b>Expenses List View </b></a></li>
+			<li><a href="../PPMS/pages/tables/particularslistview.html"><i class="fa fa-circle-o"></i> <b>Particulars List View </b></a></li>
+              </ul>
+            </li> -->
+          </ul>
+        </li>
+		<li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i> <span><B>REPORTS</B></span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+		  
+          <ul class="treeview-menu">
+			<li>
+              <a href="#"><i class="fa fa-folder"></i> ANNUAL PROCUREMENT PLAN
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+            <li><a href="../reports/APP_Itemized.html"><i class="fa fa-file-text-o"></i><b>ITEMIZED</b> </a></li>	
+			<li><a href="../reports/GPPB.html"><i class="fa fa-file-text-o"></i><b>GPPB FORMAT</b> </a></li>	
+			<li><a href="../reports/APP_Summarized.html"><i class="fa fa-file-text-o"></i><b>SUMMARIZED</b> </a></li>	
+              </ul>
+			   
+              <a href="#"><i class="fa fa-folder"></i> PMR Reports
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+			 <li><a href="../reports/PMR.html"><i class="fa fa-file-text-o"></i><b>Procurement Monitoring Report</b> </a></li>	
+			
+			
+              </ul>
+            </li>
+            </li> 
+		  </ul>
+		   
+        </li>
+		
+		 <li>
+          <a href="../../files.html">
+            <i class="fa fa-upload"></i> <span><B>UPLOADS</B></span>
+          </a>
+        </li> 
+		
+		<li>
+          <a href="../../gallery.html">
+            <i class="fa fa-picture-o"></i> <span><B>GALLERY</B></span>
+          </a>
+        </li>
+		
+        <li>
+          <a href="../calendar.html">
+            <i class="fa fa-calendar"></i> <span><B>CALENDAR</B></span>
+          </a>
+        </li> 
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+  
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        <b> PROJECT MONITORING REPORT </b>
+        <small> </small>
+      </h1>
+	    
+	  <center>			  
+				<form id="example1" action="updatePMR.html" method="post">
+					<div class="input-group col-xs-4">
+						<input type="text" name="searchtext" class="form-control" placeholder="Search...">
+							<span class="input-group-btn">
+								<button type="submit" name="search" id="search-btn" class="btn btn-primary"><i class="fa fa-search"></i></button>
+							</span>
+					</div>
+				</form>
+			</center>
+			
+			
+			 <?php
+					//include('db.php');
+				if(isset($_POST['searchtext']))
+				{
+					
+					$searchtext = $_POST['searchtext'];			
+					$select=mysql_query("SELECT * FROM pmr_db WHERE program = '$searchtext'");
+					$i=1;
+				
+				 while($userrow=mysql_fetch_array($select))
+				{
+				
+				
+						$pmrid = $userrow['pmrid'];
+						$CodePAP =$userrow['CodePAP'];
+						$program =$userrow['program'];
+						$enduserabbre =$userrow['enduserabbre'];
+						$modeofprocurement =$userrow['modeofprocurement'];
+						$preproc =$userrow['preproc'];
+						$adspost =$userrow['adspost'];
+						$prebid =$userrow['prebid'];
+						$EligibilityCheck =$userrow['EligibilityCheck'];
+						$subopenofbids =$userrow['subopenofbids'];
+						$BidEvaluation =$userrow['BidEvaluation'];
+						$postqual1 =$userrow['postqual1'];
+						$postqual2 =$userrow['postqual2'];
+						$postqual3 =$userrow['postqual3'];
+						$NoticeofAward =$userrow['NoticeofAward'];
+						$contractsigning1 =$userrow['contractsigning1'];
+						$contractsigning2 =$userrow['contractsigning2'];
+						$contractsigning3 =$userrow['contractsigning3'];
+						$noticetoproceed1 =$userrow['noticetoproceed1'];
+						$noticetoproceed2 =$userrow['noticetoproceed2'];
+						$noticetoproceed3 =$userrow['noticetoproceed3'];
+						$DeliverCompletion1 =$userrow['DeliverCompletion1'];
+						$DeliverCompletion2 =$userrow['DeliverCompletion2'];
+						$DeliverCompletion3 =$userrow['DeliverCompletion3'];
+						$InspectionAcceptance1 =$userrow['InspectionAcceptance1'];
+						$InspectionAcceptance2 =$userrow['InspectionAcceptance2'];
+						$InspectionAcceptance3 =$userrow['InspectionAcceptance3'];
+						$sourceoffunds =$userrow['sourceoffunds'];
+						$total =$userrow['total'];
+						$mooeABC =$userrow['mooeABC'];
+						$coABC =$userrow['coABC'];
+						$totalcontractcost =$userrow['totalcontractcost'];
+						$mooeContractcost1 =$userrow['mooeContractcost1'];	
+						$mooeContractcost2 =$userrow['mooeContractcost2'];	
+						$mooeContractcost3 =$userrow['mooeContractcost3'];
+						$coContractcost =$userrow['coContractcost'];
+						$observer =$userrow['observer'];
+						$prebid1 =$userrow['prebid1'];
+						$EligibilityCheck2 =$userrow['EligibilityCheck2'];
+						$subopenofbids1 =$userrow['subopenofbids1'];
+						$BidEvaluation1 =$userrow['BidEvaluation1'];	
+						$postqualinvitation =$userrow['postqualinvitation'];							
+						$DeliveryInvitation =$userrow['DeliveryInvitation'];
+						$explainingchanges =$userrow['explainingchanges'];	
+						$status =$userrow['status'];
+						$signatories =$userrow['signatories'];
+				}
+				}
+				?>
+			
+			
+			
+			
+			
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">PMR</a></li>
+        <li class="active">Update PMR</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+	  
+      <!-- START CUSTOM TABS -->
+
+      <div class="row">
+	  <form id="example2" action="modifyPMR.html" method="post">
+        
+
+        <div class="col-md-12">
+          <!-- Custom Tabs (Pulled to the right) -->
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs pull-right">
+			  <li class="pull-left header"><i class="fa fa-edit"></i> <b> UPDATE </b> </li>			
+              <li><a href="#tab_5-2" data-toggle="tab">Date of Receipt of Invitation</a></li>
+			  <li><a href="#tab_4-2" data-toggle="tab">Contract Cost</a></li>
+              <li><a href="#tab_3-2" data-toggle="tab">ABC</a></li>
+              <li><a href="#tab_2-2" data-toggle="tab">Actual Procurement Activity</a></li>
+              <li class="active"><a href="#tab_1-1" data-toggle="tab">Code PAP</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1-1">
+				<table>
+					<!--- Start of Line 1 --->
+					<thead>
+						<div class="form-group">													
+								<div class="input-group">
+									<input class="form-control" type="hidden" name="pmrid" value="<?php if (!empty($pmrid))echo $pmrid; ?>" >
+								</div>
+							</div>
+							
+							<div class="form-group">
+							<label><b>Code (PAP)</b></label>
+							  <div class="input-group">
+								<input class="form-control" name="CodePAP" value="<?php if (!empty($CodePAP))echo $CodePAP; ?>" >
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>
+							
+							<div class="form-group">
+							<label><b>Procurement Program/Project</b></label>
+							  <div class="input-group">
+								<input class="form-control" name="program"  value="<?php if (!empty($program))echo $program; ?>" >
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>
+							
+							<div class="form-group">
+							<label><b>PMO / End User</b></label>
+							  <div class="input-group">
+								<input class="form-control" name="enduserabbre" value="<?php if (!empty($enduserabbre))echo $enduserabbre; ?>" >
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>
+							
+							<div class="form-group">
+							<label><b>Mode of Procurement</b></label>
+							  <div class="input-group">
+								<input class="form-control" name="modeofprocurement" value="<?php if (!empty($modeofprocurement))echo $modeofprocurement; ?>" >
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>
+									
+					</thead>
+					<!--- End of Line 1 --->
+				</table>
+              </div>
+              <!-- /.tab-pane -->
+			  
+			  
+			  
+			  
+              <div class="tab-pane" id="tab_2-2">
+					<!--- Start of Line 1 --->
+
+										
+							<div class="form-group">
+							<label><b>Pre-Proc Conference</b></label>
+							  <div class="input-group">
+								<input name = "preproc" type="date"  placeholder="mm/dd/yyyy"  class="form-control" value="<?php if (!empty($preproc))echo $preproc; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>
+							
+							
+							<div class="form-group">
+							<label><b>Ads / Post of I</b></label>
+							  <div class="input-group">
+								<input name = "adspost" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($adspost))echo $adspost; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>			
+
+							<div class="form-group">
+							<label><b>Prebid </b></label>
+							  <div class="input-group">
+								<input name = "prebid" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($prebid))echo $prebid; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+
+							<div class="form-group">
+							<label><b>Eligibility Check</b></label>
+							  <div class="input-group">
+								<input name = "EligibilityCheck" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($EligibilityCheck))echo $EligibilityCheck; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>									
+							
+							<div class="form-group">
+							<label><b>Sub/Open of Bids</b></label>
+							  <div class="input-group">
+								<input name = "subopenofbids" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($subopenofbids))echo $subopenofbids; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+
+							<div class="form-group">
+							<label><b>Bid Evaluation</b></label>
+							  <div class="input-group">
+								<input name = "BidEvaluation " type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($BidEvaluation))echo $BidEvaluation; ?>" > 
+
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+
+							<div class="form-group">
+							<label><b>Post qual</b></label>
+							  <div class="input-group">
+								<input name = "postqual1" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($postqual1))echo $postqual1; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Post qual</b></label>
+							  <div class="input-group">
+								<input name = "postqual2" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($postqual2))echo $postqual2; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Post qual</b></label>
+							  <div class="input-group">
+								<input name = "postqual3" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($postqual3))echo $postqual3; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>							  
+							</div>								
+										
+							<div class="form-group">
+							<label><b>Notice of Award</b></label>
+							  <div class="input-group">
+								<input name = "NoticeofAward" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($NoticeofAward))echo $NoticeofAward; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>											
+								
+							<div class="form-group">
+							<label><b>Contract Signing</b></label>
+							  <div class="input-group">
+								<input name = "contractsigning1" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($contractsigning1))echo $contractsigning1; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Contract Signing</b></label>
+							  <div class="input-group">
+								<input name = "contractsigning2" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($contractsigning2))echo $contractsigning2; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Contract Signing</b></label>
+							  <div class="input-group">
+								<input name = "contractsigning3" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($contractsigning3))echo $contractsigning3; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>							  
+							</div>									
+												
+							<div class="form-group">
+							<label><b>Notice To Proceed</b></label>
+							  <div class="input-group">
+								<input name = "noticetoproceed1" type="date" placeholder="mm/dd/yyyy" class="form-control"  value="<?php if (!empty($noticetoproceed1))echo $noticetoproceed1; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Notice To Proceed</b></label>
+							  <div class="input-group">
+								<input name = "noticetoproceed2" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($noticetoproceed2))echo $noticetoproceed2; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Notice To Proceed</b></label>
+							  <div class="input-group">
+								<input name = "noticetoproceed3" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($noticetoproceed3))echo $noticetoproceed3; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>							  
+							</div>
+
+							<div class="form-group">
+							<label><b>Deliver / Completion</b></label>
+							  <div class="input-group">
+								<input name = "DeliverCompletion1" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($DeliverCompletion1))echo $DeliverCompletion1; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Deliver / Completion</b></label>
+							  <div class="input-group">
+								<input name = "DeliverCompletion2" type="date" placeholder="mm/dd/yyyy" class="form-control"value="<?php if (!empty($DeliverCompletion2))echo $DeliverCompletion2; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Deliver / Completion</b></label>
+							  <div class="input-group">
+								<input name = "DeliverCompletion3" type="date" placeholder="mm/dd/yyyy" class="form-control"value="<?php if (!empty($DeliverCompletion3))echo $DeliverCompletion3; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>							  
+							</div>		
+
+							<div class="form-group">
+							<label><b>Inspection & Acceptance</b></label>
+							  <div class="input-group">
+								<input name = "InspectionAcceptance1" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($InspectionAcceptance1))echo $InspectionAcceptance1; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Inspection & Acceptance</b></label>
+							  <div class="input-group">
+								<input name = "InspectionAcceptance2" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($InspectionAcceptance2))echo $InspectionAcceptance2; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							<label><b>Inspection & Acceptance</b></label>
+							  <div class="input-group">
+								<input name = "InspectionAcceptance3" type="date" placeholder="mm/dd/yyyy" class="form-control"value="<?php if (!empty($InspectionAcceptance3))echo $InspectionAcceptance3; ?>" > 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>							  
+							</div>							
+
+							<div class="form-group">
+							<label><b>Source of Funds</b></label>
+							  <div class="input-group">
+								<input name = "sourceoffunds" class="form-control" value="<?php if (!empty($sourceoffunds))echo $sourceoffunds; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>								
+										
+              </div>
+              <!-- /.tab-pane -->
+			  
+			  
+              <div class="tab-pane" id="tab_3-2">
+ 							<div class="form-group">
+							<label><b>Total</b></label>
+							  <div class="input-group">
+								<input name = "total" id="total" class="form-control" value="<?php if (!empty($total))echo $total;?>" onkeyup="copyText()"> 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+							
+ 							<div class="form-group">
+							<label><b>MOOE</b></label>
+							  <div class="input-group">
+								  <input name = "mooeABC" id="mooeABC" class="form-control" value="<?php if (!empty($mooeABC))echo $mooeABC; ?>" onkeyup="copyText()"> 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+
+ 							<div class="form-group">
+							<label><b>CO</b></label>
+							  <div class="input-group">
+								<input name = "coABC" class="form-control"  value="<?php if (!empty($coABC))echo $coABC; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>											
+ 
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_4-2">
+ 
+  							<div class="form-group">
+							<label><b>Total</b></label>
+							  <div class="input-group">
+								<input name = "totalcontractcost" id="totalcontractcost" class="form-control"  value="<?php if (!empty($totalcontractcost))echo $totalcontractcost; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+							
+ 							<div class="form-group">
+							<label><b>MOOE</b></label>
+							  <div class="input-group">
+								<input name = "mooeContractcost1" id="mooeContractcost1" class="form-control" value="<?php if (!empty($mooeContractcost1))echo $mooeContractcost1; ?>" onkeyup="copyText()"> 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+							<div class="form-group">
+							<label><b>MOOE</b></label>
+							  <div class="input-group">
+								<input name = "mooeContractcost2" id="mooeContractcost2" class="form-control" value="<?php if (!empty($mooeContractcost2))echo $mooeContractcost2; ?>"onkeyup="copyText()"> 
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+							<div class="form-group">
+							<label><b>MOOE</b></label>
+							  <div class="input-group">
+								<input name = "mooeContractcost3" id="mooeContractcost3" class="form-control" value="<?php if (!empty($mooeContractcost3))echo $mooeContractcost3; ?>" onkeyup="copyText()"> 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+							
+							
+
+ 							<div class="form-group">
+							<label><b>CO</b></label>
+							  <div class="input-group">
+								<input name = "coContractcost" class="form-control" value="<?php if (!empty($coContractcost))echo $coContractcost; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+		
+ 							<div class="form-group">
+							<label><b>List of Invited Observer</b></label>
+							  <div class="input-group">
+								<input name = "observer" class="form-control" value="<?php if (!empty($observer))echo $observer; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+
+              </div>
+              <!-- /.tab-pane -->			  
+			  
+			  
+			                <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_5-2">
+ 
+ 							<div class="form-group">
+							<label><b>Prebid</b></label>
+							  <div class="input-group">
+								<input name = "prebid" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($prebid))echo $prebid; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+
+ 							<div class="form-group">
+							<label><b>Eligibility Check</b></label>
+							  <div class="input-group">
+								 <input name = "EligibilityCheck" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($EligibilityCheck))echo $EligibilityCheck; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>	
+
+ 							<div class="form-group">
+							<label><b>Sub/Open of Bids</b></label>
+							  <div class="input-group">
+								 <input name = "subopenofbids" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($EligibilityCheck))echo $EligibilityCheck; ?>" > 
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>								
+	
+ 							<div class="form-group">
+							<label><b>Bid Evaluation</b></label>
+							  <div class="input-group">
+								 <input name = "BidEvaluation " type="date" placeholder="mm/dd/yyyy" class="form-control"  value="<?php if (!empty($BidEvaluation))echo $BidEvaluation; ?>" >  
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>
+
+ 							<div class="form-group">
+							<label><b>Post qual</b></label>
+							  <div class="input-group">
+								 <input name = "postqualinvitation" type="date" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (!empty($postqualinvitation))echo $postqualinvitation; ?>" >  
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>
+
+							<div class="form-group">
+							<label><b>Delivery Completion/ Acceptance</b></label>
+							  <div class="input-group">
+								 <input name = "DeliveryInvitation" type="text" placeholder=" Delivery Completion/ Acceptance" class="form-control"value="<?php if (!empty($DeliveryInvitation))echo $DeliveryInvitation; ?>" >  
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>
+							
+							<div class="form-group">
+							<label><b>Remarks (Explaining Changes from APP)</b></label>
+							  <div class="input-group">
+								 <input name = "explainingchanges" type="text" placeholder="Explaining changers from APP" class="form-control" value="<?php if (!empty($explainingchanges))echo $explainingchanges; ?>" >  
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>		
+							<div class="form-group">
+									<label> <b> Procurement Project Status : </b> </label>
+										<select name="status"> 
+											<?php if (!empty($status)) 
+												{	if ($status == 'COMPLETED PROCUREMENT ACTIVITIES')
+													{	
+														echo "<option value='COMPLETED PROCUREMENT ACTIVITIES' selected>COMPLETED PROCUREMENT ACTIVITIES</option>";
+														echo "<option value='ON-GOING PROCUREMENT ACTIVITIES'>ON-GOING PROCUREMENT ACTIVITIES</option>";
+														}
+													else
+													
+													{	
+														echo "<option value='COMPLETED PROCUREMENT ACTIVITIES' >COMPLETED PROCUREMENT ACTIVITIES</option>";
+														echo "<option value='ON-GOING PROCUREMENT ACTIVITIES' selected>ON-GOING PROCUREMENT ACTIVITIES</option>";
+														}
+}														
+											?>
+										</select>
+									</div>
+							<div class="form-group">
+							<label><b>Signatories</b></label>
+							  <div class="input-group">
+								 <input name = "signatories" type="text" placeholder=" signatories" class="form-control"value="<?php if (!empty($signatories))echo $signatories; ?>" >  
+
+								<div class="input-group-btn">
+								  <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+								</div>
+							  </div>
+							</div>			
+                                    
+
+			</div>
+              <!-- /.tab-pane -->	
+			  
+			  
+			  
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      <!-- END CUSTOM TABS -->
+									<button type="submit" class="btn btn-primary btn-raised" name="update">Submit Button</button>
+                                    <button type="reset" class="btn btn-primary btn-raised">Reset Button</button>
+									</form>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <?php
+	  
+	  		$select=mysql_query("SELECT * FROM copyright order by copy_id");
+			$i=1;
+			
+			while($userrow=mysql_fetch_array($select))
+			{
+				$version =$userrow['version'];
+				echo'<b>'.$version.'</b>';
+			}
+	  ?>
+    </div>
+    <strong>Copyright &copy; 2017 - DND PBAC PPMS by 3R&M &trade;. </strong>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane" id="control-sidebar-home-tab">
+        <h3 class="control-sidebar-heading">Recent Activity</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                <p>Will be 23 on April 24th</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-user bg-yellow"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+
+                <p>New phone +1(800)555-1234</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+
+                <p>nora@example.com</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+
+                <p>Execution time 5 seconds</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+        <h3 class="control-sidebar-heading">Tasks Progress</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Custom Template Design
+                <span class="label label-danger pull-right">70%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Update Resume
+                <span class="label label-success pull-right">95%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Laravel Integration
+                <span class="label label-warning pull-right">50%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Back End Framework
+                <span class="label label-primary pull-right">68%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+      </div>
+      <!-- /.tab-pane -->
+      <!-- Stats tab content -->
+      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">General Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Report panel usage
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Some information about this general settings option
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Allow mail redirect
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Other sets of options are available
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Expose author name in posts
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Allow the user to show his name in blog posts
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Show me as online
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Turn off notifications
+              <input type="checkbox" class="pull-right">
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Delete chat history
+              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+            </label>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<!-- Material Design -->
+<script src="../../dist/js/material.min.js"></script>
+<script src="../../dist/js/ripples.min.js"></script>
+<script>
+    $.material.init();
+</script>
+<!-- FastClick -->
+<script src="../../plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+</body>
+</html>
+<?php
+//if ($_SERVER["REQUEST_METHOD"] == "POST") 
+//{
+   if(!empty($_POST['update']))
+   {
+						$pmrid = $_POST['pmrid'];
+						$CodePAP =$_POST['CodePAP'];
+						$program =$_POST['program'];
+						$enduserabbre =$_POST['enduserabbre'];
+						$modeofprocurement =$_POST['modeofprocurement'];
+						$preproc =$_POST['preproc'];
+						$adspost =$_POST['adspost'];
+						$prebid =$_POST['prebid'];
+						$EligibilityCheck =$_POST['EligibilityCheck'];
+						$subopenofbids =$_POST['subopenofbids'];
+						$BidEvaluation =$_POST['BidEvaluation'];
+						$postqual1 =$_POST['postqual1'];
+						$postqual2 =$_POST['postqual2'];
+						$postqual3 =$_POST['postqual3'];
+						$NoticeofAward =$_POST['NoticeofAward'];
+						$contractsigning1 =$_POST['contractsigning1'];
+						$contractsigning2 =$_POST['contractsigning2'];
+						$contractsigning3 =$_POST['contractsigning3'];
+						$noticetoproceed1 =$_POST['noticetoproceed1'];
+						$noticetoproceed2 =$_POST['noticetoproceed2'];
+						$noticetoproceed3 =$_POST['noticetoproceed3'];
+						$DeliverCompletion1 =$_POST['DeliverCompletion1'];
+						$DeliverCompletion2 =$_POST['DeliverCompletion2'];
+						$DeliverCompletion3 =$_POST['DeliverCompletion3'];
+						$InspectionAcceptance1 =$_POST['InspectionAcceptance1'];
+						$InspectionAcceptance2 =$_POST['InspectionAcceptance2'];
+						$InspectionAcceptance3 =$_POST['InspectionAcceptance3'];
+						$sourceoffunds =$_POST['sourceoffunds'];
+						$total =$_POST['total'];
+						$mooeABC =$_POST['mooeABC'];
+						$coABC =$_POST['coABC'];
+						$totalcontractcost =$_POST['totalcontractcost'];
+						$mooeContractcost1 =$_POST['mooeContractcost1'];	
+						$mooeContractcost2 =$_POST['mooeContractcost2'];	
+						$mooeContractcost3 =$_POST['mooeContractcost3'];
+						$coContractcost =$_POST['coContractcost'];
+						$observer =$_POST['observer'];
+						$prebid1 =$_POST['prebid1'];
+						$EligibilityCheck2 =$_POST['EligibilityCheck2'];
+						$subopenofbids1 =$_POST['subopenofbids1'];
+						$BidEvaluation1 =$_POST['BidEvaluation1'];	
+						$postqualinvitation =$_POST['postqualinvitation'];							
+						$DeliveryInvitation =$_POST['DeliveryInvitation'];
+						$explainingchanges =$_POST['explainingchanges'];	
+						$status =$_POST['status'];	
+						$signatories =$_POST['signatories'];	
+   
+   }
+//}
+?>

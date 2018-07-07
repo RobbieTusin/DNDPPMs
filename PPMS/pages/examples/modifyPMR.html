@@ -1,0 +1,67 @@
+<?php
+  ob_start();
+  include("db.php");
+	
+						$pmrid = mysql_real_escape_string ($_POST['pmrid']);
+						$CodePAP =mysql_real_escape_string ($_POST['CodePAP']);
+						$program =mysql_real_escape_string ($_POST['program']);
+						$enduserabbre =mysql_real_escape_string ($_POST['enduserabbre']);
+						$modeofprocurement =mysql_real_escape_string ($_POST['modeofprocurement']);
+						$preproc =mysql_real_escape_string ($_POST['preproc']);
+						$adspost =mysql_real_escape_string ($_POST['adspost']);
+						$prebid =mysql_real_escape_string ($_POST['prebid']);
+						$EligibilityCheck =mysql_real_escape_string ($_POST['EligibilityCheck']);
+						$subopenofbids =mysql_real_escape_string ($_POST['subopenofbids']);
+						$BidEvaluation =mysql_real_escape_string ($_POST['BidEvaluation']);
+						$postqual1 =mysql_real_escape_string ($_POST['postqual1']);
+						$postqual2 =mysql_real_escape_string ($_POST['postqual2']);
+						$postqual3 =mysql_real_escape_string ($_POST['postqual3']);
+						$NoticeofAward =mysql_real_escape_string ($_POST['NoticeofAward']);
+						$contractsigning1 =mysql_real_escape_string ($_POST['contractsigning1']);
+						$contractsigning2 =mysql_real_escape_string ($_POST['contractsigning2']);
+						$contractsigning3 =mysql_real_escape_string ($_POST['contractsigning3']);
+						$noticetoproceed1 =mysql_real_escape_string ($_POST['noticetoproceed1']);
+						$noticetoproceed2 =mysql_real_escape_string ($_POST['noticetoproceed2']);
+						$noticetoproceed3 =mysql_real_escape_string ($_POST['noticetoproceed3']);
+						$DeliverCompletion1 =mysql_real_escape_string ($_POST['DeliverCompletion1']);
+						$DeliverCompletion2 =mysql_real_escape_string ($_POST['DeliverCompletion2']);
+						$DeliverCompletion3 =mysql_real_escape_string ($_POST['DeliverCompletion3']);
+						$InspectionAcceptance1 =mysql_real_escape_string ($_POST['InspectionAcceptance1']);
+						$InspectionAcceptance2 =mysql_real_escape_string ($_POST['InspectionAcceptance2']);
+						$InspectionAcceptance3 =mysql_real_escape_string ($_POST['InspectionAcceptance3']);
+						$sourceoffunds =mysql_real_escape_string ($_POST['sourceoffunds']);
+						$total =mysql_real_escape_string ($_POST['total']);
+						$mooeABC =mysql_real_escape_string ($_POST['mooeABC']);
+						$coABC =mysql_real_escape_string ($_POST['coABC']);
+						$totalcontractcost =mysql_real_escape_string ($_POST['totalcontractcost']);
+						$mooeContractcost1 =mysql_real_escape_string ($_POST['mooeContractcost1']);	
+						$mooeContractcost2 =mysql_real_escape_string ($_POST['mooeContractcost2']);	
+						$mooeContractcost3 =mysql_real_escape_string ($_POST['mooeContractcost3']);
+						$coContractcost =mysql_real_escape_string ($_POST['coContractcost']);
+						$observer =mysql_real_escape_string ($_POST['observer']);
+						$prebid1 =mysql_real_escape_string ($_POST['prebid1']);
+						$EligibilityCheck2 =mysql_real_escape_string ($_POST['EligibilityCheck2']);
+						$subopenofbids1 =mysql_real_escape_string ($_POST['subopenofbids1']);
+						$BidEvaluation1 =mysql_real_escape_string ($_POST['BidEvaluation1']);	
+						$postqualinvitation =mysql_real_escape_string ($_POST['postqualinvitation']);							
+						$DeliveryInvitation =mysql_real_escape_string ($_POST['DeliveryInvitation']);
+						$explainingchanges =mysql_real_escape_string ($_POST['explainingchanges']);	
+						$status =mysql_real_escape_string ($_POST['status']);	
+						$signatories =mysql_real_escape_string ($_POST['signatories']);	
+	
+	$update=mysql_query("UPDATE pmr_db SET CodePAP='$CodePAP',program='$program',enduserabbre='$enduserabbre',modeofprocurement='$modeofprocurement',preproc='$preproc',adspost='$adspost',prebid='$prebid',EligibilityCheck='$EligibilityCheck',subopenofbids='$subopenofbids',BidEvaluation='$BidEvaluation',postqual1='$postqual1',postqual2='$postqual2',postqual3='$postqual3',NoticeofAward='$NoticeofAward',contractsigning1='$contractsigning1',contractsigning2='$contractsigning2',contractsigning3='$contractsigning3',noticetoproceed1='$noticetoproceed1',noticetoproceed2='$noticetoproceed2',noticetoproceed3='$noticetoproceed3',DeliverCompletion1='$DeliverCompletion1',DeliverCompletion2='$DeliverCompletion2',DeliverCompletion3='$DeliverCompletion3',InspectionAcceptance1='$InspectionAcceptance1',InspectionAcceptance2='$InspectionAcceptance2',InspectionAcceptance3='$InspectionAcceptance3',sourceoffunds='$sourceoffunds',total='$total',mooeABC='$mooeABC',coABC='$coABC',totalcontractcost='$totalcontractcost',mooeContractcost1='$mooeContractcost1',mooeContractcost2='$mooeContractcost2',mooeContractcost3='$mooeContractcost3',coContractcost='$coContractcost',observer='$observer',prebid1='$prebid1',EligibilityCheck2='$EligibilityCheck2',subopenofbids1='$subopenofbids1',BidEvaluation1='$BidEvaluation1',postqualinvitation='$postqualinvitation',DeliveryInvitation='$DeliveryInvitation',explainingchanges='$explainingchanges',status='$status',signatories='$signatories' WHERE pmrid='$pmrid'");
+						  		
+	if($update)
+  {
+	  $msg="Order Confirm!!";
+	  echo "<script type='text/javascript'>alert('$msg');</script>";
+	  header("Location: {$_SERVER['HTTP_REFERER']}");
+  }
+  else
+  {
+	  $errormsg="Something went wrong, Try again";
+	  echo "<script type='text/javascript'>alert('$errormsg');</script>";
+	  header('Location:encodePMR.html');
+  }
+ ob_end_flush();
+?>

@@ -1,0 +1,754 @@
+<?php
+   include('db.php');
+   session_start();
+   
+   $user_check = $_SESSION['login_user'];
+   
+   $ses_sql = mysql_query("select employee_id from bacmember where employee_id = '$user_check' ");
+   
+   $row = mysql_fetch_array($ses_sql,MYSQLI_ASSOC);
+   
+   //$login_session = $row['username'];
+   
+   if(!isset($_SESSION['login_user'])){
+      header("location:/../../DNDPPMS/index.html");
+   }
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>DND PBAC PPMS | Procurement Data Entry Form </title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+  <!-- Material Design -->
+  <link rel="stylesheet" href="../../dist/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" href="../../dist/css/ripples.min.css">
+  <link rel="stylesheet" href="../../dist/css/MaterialAdminLTE.min.css">
+  <!-- MaterialAdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../dist/css/skins/all-md-skins.min.css">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="/../../DNDPPMS/index.html" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>P<b>P<b>M<b>S</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>DND PBAC PPMS</b></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+
+     <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+
+		<li>
+			<a href="../examples/lockscreen.html">
+				LOCKSCREEN <i class="fa fa-lock"></i>
+			</a>
+        </li>
+          <li>
+            <a href="logout.php">
+              LOGOUT <i class="fa fa-sign-out"></i>
+            </a>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="../../dist/img/boy1.png" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>JUAN DELA CRUZ</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+       <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="active treeview">
+          <a href="#">
+         <a href="../../index.html">   <i class="fa fa-dashboard"></i> <span><b>BAC SECRETARIAT DASHBOARD</b></span>
+          </a>
+        </li>
+         <li class="treeview">
+          <a href="#">
+            <i class="fa fa-folder"></i> <span>DATABASE</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+		    <li><a href="../tables/dataentrytables.html"><i class="fa fa-circle-o"></i> Mode of Procurement List View</a></li>
+			<li><a href="../tables/endusertables.html"><i class="fa fa-circle-o"></i> End User Offices List View</a></li>
+			<li><a href="../tables/BacMembertable.html"><i class="fa fa-circle-o"></i> BAC Member List View</a></li>
+			<li><a href="../tables/producttables.html"><i class="fa fa-circle-o"></i> Product Details List View</a></li>
+			<li><a href="../tables/procurementtables.html"><i class="fa fa-circle-o"></i> Procurement List View</a></li>
+			<li><a href="../tables/signatory.html"><i class="fa fa-circle-o"></i> Signatory List View</a></li>
+			<li><a href="../tables/suppliertable.html"><i class="fa fa-circle-o"></i> Supplier List View</a></li>
+			<li><a href="../tables/unit.html"><i class="fa fa-circle-o"></i> Unit List View</a></li>
+			<li><a href="../tables/fiscalyear.html"><i class="fa fa-circle-o"></i> Fiscal Year List View</a></li>
+			<li><a href="../tables/quarter.html"><i class="fa fa-circle-o"></i> Quarter List View</a></li>
+            <li>
+              <a href="#"><i class="fa fa-folder"></i> APP DATABASE
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+            <li><a href="../tables/expensesform.php"><i class="fa fa-circle-o"></i> <b>Expenses List View </b></a></li>
+			<li><a href="../tables/particularslistview.html"><i class="fa fa-circle-o"></i> <b>Particulars List View </b></a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+		
+        <li>
+          <a href="../calendar.html">
+            <i class="fa fa-calendar"></i> <span><B>CALENDAR</B></span>
+          </a>
+        </li>
+		<li class="treeview">
+          <a href="#">
+            <i class="fa fa-folder"></i> <span>DATA ENTRY FORMS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+		  <li><a href="../examples/dataentry_enduser.html"><i class="fa fa-circle-o"></i> End User Offices Data Entry </a></li>
+			<li><a href="../examples/dataentry_mode.html"><i class="fa fa-circle-o"></i> Mode of Procurement Data Entry </a></li>
+			<li><a href="../examples/dataentry_product.html"><i class="fa fa-circle-o"></i> Product Data Entry </a></li>
+			<li><a href="../examples/dataentry_procurement.html"><i class="fa fa-circle-o"></i> Procurement Data Entry </a></li>
+			<li><a href="../examples/dataentry_signatory.html"><i class="fa fa-circle-o"></i> Signatory Data Entry </a></li>
+			<li><a href="../examples/dataentry_supplier.html"><i class="fa fa-circle-o"></i> Supplier Data Entry </a></li>
+			<li><a href="../examples/dataentry_unit.html"><i class="fa fa-circle-o"></i> Unit Data Entry </a></li>
+			<li><a href="../examples/dataentry_fiscalyear.html"><i class="fa fa-circle-o"></i> Fiscal Year Data Entry </a></li>
+			<li><a href="../examples/dataentry_quarters.html"><i class="fa fa-circle-o"></i> Quarter Data Entry </a></li>
+            <li>
+              <a href="#"><i class="fa fa-folder"></i> APP DATA ENTRY FORMS
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+            <li><a href="../examples/dataentry_expenses.html"><i class="fa fa-circle-o"></i><b> Expenses Data Entry </b></a></li>		
+			<li><a href="../examples/dataentry_particulars.html"><i class="fa fa-circle-o"></i><b> Particulars Data Entry </b> </a></li>
+            <li><a href="../examples/dataentry_APP.html"><i class="fa fa-circle-o"></i><b>APP Data Entry</b></a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+			<li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i> <span><B>REPORTS</B></span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+			<li><a href="../examples/invoice.html"><i class="fa fa-circle-o"></i><b>APP Report</b></a></li>
+			<li><a href="../examples/invoice.html"><i class="fa fa-circle-o"></i><b>PMR Report</b></a></li>
+			<li><a href="../examples/report_GPPB.html"><i class="fa fa-circle-o"></i><b>GPPB Report</b></a></li>
+		  </ul>
+        </li>
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+
+        <small> </small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Examples</a></li>
+        <li class="active"><b>APP FORM-GPPB FORMAT</b></li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="box">
+        <div class="box-body">
+		<table align="center" class="pull-right">
+		<tr>
+			<td align="center">
+				<label> <b> SEARCH </b></label>
+			</td>
+			<td align="center">
+				<label> <b> VIEW REPORT </b></label>
+			</td>			
+		</tr>
+		<tr>
+			<td>
+				<select class="btn btn-danger btn-raised pull-right"> 
+					<option> Procurement of Office Supplies</option>
+					<option> Procurement of Computer Supplies</option>
+				</select>
+			</td>
+			<td>
+				<button type="submit" class="btn btn-primary btn-raised pull-right">SUMMARIZED</button>
+				<button type="submit" class="btn btn-primary btn-raised pull-right">GPPB</button>			
+				<button type="submit" class="btn btn-primary btn-raised pull-right">ITEMIZED</button>
+			</td>			
+		</tr>
+				<table align="center">
+			<tr align="center">
+				<td>
+					<img height="auto" width="250px" src="../images/offices/dnd.jpg" alt="PPMS">
+				
+				</td>
+				<td>
+				<h3> <b>	ENCODE GOODS AND SERVICES TO BE PROCURED 	</b> </h3>
+				<h3> <b>			ANNUAL PROCUREMENT PLAN 			</b> </h3>
+				</td>			
+			</tr>
+		</table>
+		</table>
+
+                                   <form role="form" method="post" action="insertdb_APP.html">
+								  
+										
+										      <!-- Table row -->
+		<div class="row">
+        <div class="col-xs-12 table-responsive">
+		<table class="table table-bordered table-striped">
+		<!--- Start of Line 1 --->
+		<thead>
+			<th> Code (PAP) </th>
+			<th colspan="2"> 
+										<?php
+											
+											$sql = "SELECT CodePAP FROM product";
+											$result = mysql_query($sql);											
+											echo "<select name='CodePAP' class='form-control col-xs-6'>";
+											echo"<option value= '-1'>Select (Code PAP)</option>";
+											while ($row = mysql_fetch_array($result)) {
+											echo"<option value= '" . $row['CodePAP'] . "'>" . $row['CodePAP'] . "</option>";
+											}
+											echo"</select>";											
+											?>				</th>
+										
+											
+			<th> Procurement Program/Project </th>
+			<th colspan="3"> 
+										<?php
+											
+											$sql = "SELECT procurementprogram FROM product";
+											$result = mysql_query($sql);											
+											echo "<select name='procurementprogram' class='form-control col-xs-6'>";
+											echo"<option value= '-1'>Select Procurement Program</option>";
+											while ($row = mysql_fetch_array($result)) {
+											echo"<option value= '" . $row['procurementprogram'] . "'>" . $row['procurementprogram'] . "</option>";
+											}
+											echo"</select>";											
+											?>		
+			</th>
+			<th> PMO / End User</th>
+			<th colspan="3"> 
+										<?php
+											
+											$sql = "SELECT enduserabbre FROM enduser";
+											$result = mysql_query($sql);											
+											echo "<select name='enduserabbre' class='form-control col-xs-6'>";
+											echo"<option value= '-1'>Select End User";
+											while ($row = mysql_fetch_array($result)) {
+											echo"<option value= '" . $row['enduserabbre'] . "'>" . $row['enduserabbre'] . "</option>";
+											}
+											echo"</select>";											
+											?>				
+			</th>
+			<th> Mode of Procurement </th>
+			<th colspan="3"> 		
+										<?php
+											
+											$sql = "SELECT modeofprocurement FROM moprocurement";
+											$result = mysql_query($sql);											
+											echo "<select name='modeofprocurement' class='form-control col-xs-6'>";
+											echo"<option value= '-1'>Select Mode of Procurement";
+											while ($row = mysql_fetch_array($result)) {
+											echo"<option value= '" . $row['modeofprocurement'] . "'>" . $row['modeofprocurement'] . "</option>";
+											}
+											echo"</select>";											
+											?>	
+			</th>
+		</thead>
+		<!--- End of Line 1 --->
+		
+		<!--- Start of Line 2 --->
+		<thead>
+			<th>Pre-Proc Conference </th>
+			<th colspan="2"> 
+										<div class="form-group">
+                                            <label> <b> Pre-proc </b></label>
+                                            <input name = "Pre-proc" type="date" placeholder="mm/dd/yyyy" class="form-control">
+                                        </div>
+										
+			
+			<th> Ads/ Post of IS</th>
+			<th colspan="3"> 
+										<div class="form-group">
+                                            <label> <b> Ads Post</b></label>
+                                            <input name = "Pre-proc" type="date" placeholder="mm/dd/yyyy" class="form-control">
+                                        </div>
+			<th> Pre-bid </th>
+			<th colspan="3"> 
+										<?php
+											
+											$sql = "SELECT quarter FROM quarter";
+											$result = mysql_query($sql);											
+											echo "<select name='quarter' class='form-control col-xs-6'>";
+											echo"<option value= '-1'>Select Quarter";
+											while ($row = mysql_fetch_array($result)) {
+											echo"<option value= '" . $row['quarter'] . "'>" . $row['quarter'] . "</option>";
+											}
+											echo"</select>";											
+											?>	
+			<th> Contract Signing </th>
+			<th colspan="3"> 
+										<?php
+											
+											$sql = "SELECT quarter FROM quarter";
+											$result = mysql_query($sql);											
+											echo "<select name='quarter' class='form-control col-xs-6'>";
+											echo"<option value= '-1'>Select Quarter";
+											while ($row = mysql_fetch_array($result)) {
+											echo"<option value= '" . $row['quarter'] . "'>" . $row['quarter'] . "</option>";
+											}
+											echo"</select>";											
+											?>	</th>
+		</thead>
+		<!--- End of Line 2 --->
+		
+		<!--- Start of Line 3 --->		
+
+		<thead>
+			<th> MOOE </th>
+			<th colspan="2"> <input name = "mooe" class="form-control" placeholder="Enter MOOE"/> </th>
+			<th> CO </th>
+			<th colspan="2"> <input name = "co" class="form-control" placeholder="Enter CO"/> </th>
+			<th> Remarks </th>
+			<th colspan="2"> <input name = "remarks" class="form-control" placeholder="Enter Remarks"/> </th>
+		</thead>		
+	<tbody>
+		<tr>
+			<td colspan="1" style="text-align:center"> Code (PAP) </td>
+			<td colspan="3" style="text-align:center"> Nomenclature  </td>
+			<td colspan="2" style="text-align:center"> Mode of Procurement </td>
+			<td colspan="1" style="text-align:center"> Unit </td>
+			<td colspan="1" style="text-align:center"> Unit Cost </td>
+			<td colspan="1" style="text-align:center"> Add 10% (Proc Svc) </td>
+		</tr>
+		<tr>
+			<td colspan="1" style="text-align:center"> Jan </td>
+			<td colspan="1" style="text-align:center"> Feb </td>
+			<td colspan="1" style="text-align:center"> Mar </td>
+			<td colspan="1" style="text-align:center"> Apr </td>
+			<td colspan="1" style="text-align:center"> May </td>
+			<td colspan="1" style="text-align:center"> Jun </td>
+			<td colspan="1" style="text-align:center"> Jul </td>
+			<td colspan="1" style="text-align:center"> Aug </td>
+			<td colspan="1" style="text-align:center"> Sep </td>
+			<td colspan="1" style="text-align:center"> Oct </td>
+			<td colspan="1" style="text-align:center"> Nov </td>
+			<td colspan="1" style="text-align:center"> Dec </td>
+			<td colspan="1" style="text-align:center"> Total Qty </td>
+			<td colspan="1" style="text-align:center"> MOOE </td>
+			<td colspan="1" style="text-align:center"> CO </td>
+		</tr>		
+	</tbody>
+	<tbody>
+		<tr>
+			<td>
+				<div class="form-group">
+                                            <input name="jan" class="form-control">
+                                        </div>
+
+			</td>
+			<td>
+				<div class="form-group">
+                                            <input name="feb" class="form-control">
+                                        </div>
+			</td>
+			<td>
+				<div class="form-group">
+                                            <input name="march" class="form-control">
+                                        </div>
+			</td>
+			<td>
+			<div class="form-group">
+                                            <input name="april" class="form-control">
+                                        </div>
+			</td>
+			<td>
+				<div class="form-group">
+                                            <input name="may" class="form-control">
+                                        </div>
+			</td>
+			<td>
+				<div class="form-group">
+                                            <input name="june" class="form-control">
+                                        </div>
+			</td>
+			<td>
+				<div class="form-group">
+                                            <input name="july" class="form-control">
+                                        </div>
+			</td>
+			<td>
+				<div class="form-group">
+                                            <input name="aug" class="form-control">
+                                        </div>
+			</td>
+			<td>
+				<div class="form-group">
+                                            <input name="sept" class="form-control">
+                                        </div>
+			</td>
+			<td>
+				<div class="form-group">
+                                            <input name="oct" class="form-control">
+                                        </div>
+			</td>
+			<td>
+						<div class="form-group">
+                                            <input name="nov" class="form-control">
+                                        </div>
+			</td>
+			<td>
+						<div class="form-group">
+                                            <input name="dec" class="form-control">
+                                        </div>
+			</td>
+			<td>
+				
+			</td>
+			<td>
+				[CONTENT]
+			</td>
+		</tr>
+	</tbody>
+</table>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+			
+                                        
+										<button type="submit" class="btn btn-primary btn-raised">Submit Button</button>
+                                        <button type="reset" class="btn btn-primary btn-raised">Reset Button</button>
+                                    
+									</form>
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 1
+    </div>
+    <strong>Copyright &copy; 2017 - DND PBAC PPMS by 3R&M &trade;. </strong>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane" id="control-sidebar-home-tab">
+        <h3 class="control-sidebar-heading">Recent Activity</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                <p>Will be 23 on April 24th</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-user bg-yellow"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+
+                <p>New phone +1(800)555-1234</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+
+                <p>nora@example.com</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+
+                <p>Execution time 5 seconds</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+        <h3 class="control-sidebar-heading">Tasks Progress</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Custom Template Design
+                <span class="label label-danger pull-right">70%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Update Resume
+                <span class="label label-success pull-right">95%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Laravel Integration
+                <span class="label label-warning pull-right">50%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <h4 class="control-sidebar-subheading">
+                Back End Framework
+                <span class="label label-primary pull-right">68%</span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+      </div>
+      <!-- /.tab-pane -->
+      <!-- Stats tab content -->
+      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">General Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Report panel usage
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Some information about this general settings option
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Allow mail redirect
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Other sets of options are available
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Expose author name in posts
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Allow the user to show his name in blog posts
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Show me as online
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Turn off notifications
+              <input type="checkbox" class="pull-right">
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Delete chat history
+              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+            </label>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<!-- Material Design -->
+<script src="../../dist/js/material.min.js"></script>
+<script src="../../dist/js/ripples.min.js"></script>
+<script>
+    $.material.init();
+</script>
+<!-- SlimScroll -->
+<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../../plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+</body>
+</html>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") 
+{
+   
+	$CodePAP = $_POST['CodePAP'];
+	$procurementprogram = $_POST['procurementprogram'];
+	$endeuserabbre = $_POST['endeuserabbre'];
+	$modeofprocurement = $_POST['modeofprocurement'];
+	$quarter = $_POST['quarter'];
+	$quarter = $_POST['quarter'];
+	$quarter = $_POST['quarter'];
+	$quarter = $_POST['quarter'];
+	$mooe = $_POST['mooe'];
+	$co = $_POST['co'];
+	$remarks = $_POST['remarks'];
+	$jan = $_POST['jan'];
+	$feb = $_POST['feb'];
+	$march = $_POST['march'];
+	$april = $_POST['april'];
+	$may = $_POST['may'];
+	$june = $_POST['june'];
+	$july = $_POST['july'];
+	$aug = $_POST['aug'];
+	$sept = $_POST['sept'];
+	$oct = $_POST['oct'];
+	$nov = $_POST['nov'];
+	$dec = $_POST['dec'];
+	
+}
+?>

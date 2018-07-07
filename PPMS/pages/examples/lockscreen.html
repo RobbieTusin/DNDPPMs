@@ -1,0 +1,134 @@
+<?php
+   include('db.php');
+   session_start();
+   
+   $user_check = $_SESSION['login_user'];
+   
+   $ses_sql = mysql_query("select employee_id from bacmember where employee_id = '$user_check' ");
+   
+   $row = mysql_fetch_array($ses_sql,MYSQLI_ASSOC);
+   
+   //$login_session = $row['username'];
+   
+   if(!isset($_SESSION['login_user'])){
+      header("location:/../../DNDPPMS/index.html");
+   }
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>DND PROPER BAC PPMS | Lock Screen </title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+  <!-- Material Design -->
+  <link rel="stylesheet" href="../../dist/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" href="../../dist/css/ripples.min.css">
+  <link rel="stylesheet" href="../../dist/css/MaterialAdminLTE.min.css">
+  <!-- MaterialAdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../dist/css/skins/all-md-skins.min.css">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <style>
+  
+	.lockscreen{
+		background: #AARRGGBB;
+	}
+  </style>
+  
+</head>
+<body class="hold-transition lockscreen" >
+
+
+	<!-- Automatic element centering -->
+	<div class="lockscreen-wrapper">
+
+	  <div class="lockscreen-logo" style="padding-left:-50px;">
+		<img src="../../dist/img/dnd_logo_small.png"/>
+	  </div>
+	  <!-- User name -->
+	  <div class="lockscreen-name"><?php echo $_SESSION['firstname'] ?></div>
+
+	  <!-- START LOCK SCREEN ITEM -->
+	  <div class="lockscreen-item">
+		<!-- lockscreen image -->
+		<div class="lockscreen-image">
+		  <img src="../../dist/img/boy1.png" alt="User Image">
+		</div>
+		<!-- /.lockscreen-image -->
+
+		<!-- lockscreen credentials (contains the form) -->
+		<form class="lockscreen-credentials">
+		  <div class="input-group">
+			<input type="password" class="form-control" placeholder="password">
+
+			<div class="input-group-btn">
+			  <button type="button" class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
+			</div>
+		  </div>
+		</form>
+		<!-- /.lockscreen credentials -->
+
+	  </div>
+	  <!-- /.lockscreen-item -->
+	  <div class="help-block text-center">
+		<strong> ENTER YOUR PASSWORD TO RETRIEVE YOUR SESSION </strong>	
+	  </div>
+	  <div class="text-center">
+		<a href="/DNDPPMS/bac_login.html">Or sign in as a different user</a>
+	  </div>
+	  <div class="lockscreen-footer text-center">
+		<div class="hidden-xs">
+		  <?php
+				$select=mysql_query("SELECT * FROM copyright order by copy_id");
+				$i=1;
+				
+				while($userrow=mysql_fetch_array($select))
+				{
+					$version =$userrow['version'];
+					echo'<br><b>'.$version.'</b>';
+				}
+		  ?>
+		</div>
+		<strong>Copyright &copy; 2017 - DND PBAC PPMS by 3R&M&trade; </strong>
+	  </div>
+
+	</div>
+	<!-- /.center -->					
+					
+					
+
+
+
+
+
+
+
+<!-- jQuery 2.2.3 -->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<!-- Material Design -->
+<script src="../../dist/js/material.min.js"></script>
+<script src="../../dist/js/ripples.min.js"></script>
+<script>
+    $.material.init();
+</script>
+</body>
+</html>
